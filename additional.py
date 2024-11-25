@@ -18,27 +18,49 @@
 import random
 
 lists = ['камень', 'ножницы', 'бумага']
-rand_list = random.choice(lists)
-print(rand_list)
 
 
-# 1) получение выбора игрока
+# получение выбора игрока
 def choice_player():
-
     i = 1
     while i > 0:
-        item = input('Выберите и введите камень, ножницы, бумага: ')
+        item = input('Выберите и введите камень, ножницы, бумага: ').lower()
         if item in lists:
-            print('Yes')
-            i = 0
+            return item
         else:
-            print('No')
-            item_error = input('Желаете продолжить ввод У/N')
-            if item_error == 'Y':
+            item_error = input('Ошиблись при вводе, если желаете продолжить \nвведите Да, '
+                               'если нет нажмите любую клавишу: ').lower()
+            if item_error == 'да':
                 i = 1
             else:
-                print('Остановка')
-                i = 0
+                return 'Остановка'
 
 
-choice_player()
+# получение выбора бота
+def choice_bot():
+    rand_list = random.choice(lists)
+    return rand_list
+
+
+def calculation_winner():
+    player = choice_player()
+    bot = choice_bot()
+    if player == bot:
+        print('Ничья')
+    elif ((player == 'камень' and bot == 'бумага') or
+          (player == 'ножницы' and bot == 'камень') or
+          (player == 'бумага' and bot == 'ножницы')):
+        print('Вы проиграли')
+    elif player == 'Остановка':
+        print('Вы закончили игру')
+    else:
+        print('Вы выиграли')
+
+
+def play():
+    calculation_winner()
+    print(calculation_winner())
+
+
+
+play()
