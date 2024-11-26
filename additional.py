@@ -1,26 +1,7 @@
-# Необходимо написать игру ("камень ножницы бумага".
-# Как) работает игра.Мы запускаем файл. Далее программа
-# спрашивает нас, что мы выбираем(игрок) – (камень / ножницы / бумага
-# Далее) боту рандомится камень / ножницы / бумага. Затем происходит
-# проверка кто выиграл
-#
-# Решить задачу необходимо используя 4 функции:
-#
-# 1) получение выбора игрока
-# 2) получение выбора бота
-# 3) расчет победителя
-# 4) функция play в которой идет игра
-#
-# Дополнительно:
-# 1) добавьте возможность сыграть не один раз а несколько
-# 2) после завершения игры сделайте вывод кол - ва побед и
-# поражений(предусмотрите вариант ничьи)
 import random
-
 lists = ['камень', 'ножницы', 'бумага']
 
 
-# получение выбора игрока
 def choice_player():
     i = 1
     while i > 0:
@@ -36,31 +17,50 @@ def choice_player():
                 return 'Остановка'
 
 
-# получение выбора бота
 def choice_bot():
     rand_list = random.choice(lists)
     return rand_list
 
 
 def calculation_winner():
+    global z
     player = choice_player()
     bot = choice_bot()
+    print('Компьютер выбрал: ', bot)
     if player == bot:
-        print('Ничья')
+        return 'Ничья'
     elif ((player == 'камень' and bot == 'бумага') or
           (player == 'ножницы' and bot == 'камень') or
           (player == 'бумага' and bot == 'ножницы')):
-        print('Вы проиграли')
+        return 'Вы проиграли'
     elif player == 'Остановка':
-        print('Вы закончили игру')
+        return 'Вы закончили игру'
     else:
-        print('Вы выиграли')
+        return 'Вы выиграли'
 
 
 def play():
-    calculation_winner()
-    print(calculation_winner())
-
+    victory = 0
+    defeat = 0
+    draw = 0
+    i = int(input('Введите цифру сколько раз хотите сыграть: '))
+    while i > 0:
+        rezult = calculation_winner()
+        print(rezult)
+        if rezult == 'Вы закончили игру':
+            i = 0
+        elif rezult == 'Вы выиграли':
+            victory += 1
+            i -= 1
+        elif rezult == 'Вы проиграли':
+            defeat += 1
+            i -= 1
+        elif rezult == 'Ничья':
+            draw += 1
+            i -= 1
+        else:
+            print('Какая то ошибка!!!!')
+    print(f'Вы выграли {victory} раз \nВы проиграли {defeat} раз \nВы сыграли в ничью {draw} раз')
 
 
 play()
